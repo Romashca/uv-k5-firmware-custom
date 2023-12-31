@@ -194,7 +194,7 @@ const char gSubMenu_TOT[][7] =
 	"15 min"
 };
 
-const char* gSubMenu_RXMode[] =
+const char* const gSubMenu_RXMode[] =
 {
 	"MAIN\nONLY", 		// TX and RX on main only
 	"DUAL RX\nRESPOND", // Watch both and respond
@@ -218,7 +218,7 @@ const char gSubMenu_SC_REV[][8] =
 	"STOP"
 };
 
-const char* gSubMenu_MDF[] =
+const char* const gSubMenu_MDF[] =
 {
 	"FREQ",
 	"CHANNEL\nNUMBER",
@@ -244,7 +244,7 @@ const char gSubMenu_D_RSP[][11] =
 };
 #endif
 
-const char* gSubMenu_PTT_ID[] =
+const char* const gSubMenu_PTT_ID[] =
 {
 	"OFF",
 	"UP CODE",
@@ -274,7 +274,7 @@ const char gSubMenu_RESET[][4] =
 	"ALL"
 };
 
-const char * gSubMenu_F_LOCK[] =
+const char * const gSubMenu_F_LOCK[] =
 {
 	"DEFAULT+\n137-174\n400-470",
 	"FCC HAM\n144-148\n420-450",
@@ -649,6 +649,8 @@ void UI_DisplayMenu(void)
 				UI_PrintString(String, menu_item_x1, menu_item_x2, 4, 8);
 			}
 
+			SETTINGS_FetchChannelName(String, gSubMenuSelection);
+			UI_PrintString(String[0] ? String : "--", menu_item_x1, menu_item_x2, 2, 8);
 			already_printed = true;
 			break;
 		}
@@ -927,16 +929,6 @@ void UI_DisplayMenu(void)
 				UI_PrintString(String, menu_item_x1, menu_item_x2, 5, 8);
 			}
 		}
-	}
-
-	if (UI_MENU_GetCurrentMenuId() == MENU_MEM_CH   ||
-	    UI_MENU_GetCurrentMenuId() == MENU_DEL_CH   ||
-	    UI_MENU_GetCurrentMenuId() == MENU_1_CALL)
-	{	// display the channel name
-		char s[11];
-		SETTINGS_FetchChannelName(s, gSubMenuSelection);
-		char *pPrintStr = s[0] ? s : "--";
-		UI_PrintString(pPrintStr, menu_item_x1, menu_item_x2, 2, 8);
 	}
 
 	if ((UI_MENU_GetCurrentMenuId() == MENU_R_CTCS || UI_MENU_GetCurrentMenuId() == MENU_R_DCS) && gCssBackgroundScan)
